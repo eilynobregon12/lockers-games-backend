@@ -1,18 +1,29 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-
 const app = express();
+const PORT = process.env.PORT || 5000;
+const juegoRoutes = require('./routes/juegoRoutes');
+const usuarioRoutes = require('./routes/usuarioRoutes');
+const resenaRoutes = require('./routes/resenaRoutes');
+
+const MONGODB_URL = "mongodb+srv://jovenescreativos:AngjYhQeY0KpTLuR@proyecto-final-jc.yhgniab.mongodb.net/tatiana";
+
 app.use(express.json());
 
+app.use("/api/juego", juegoRoutes);
+app.use("/api/usuario", usuarioRoutes);
+app.use("/api/resena", resenaRoutes);
 
-mongoose.connect('mongodb+srv://jacobogarcesoquendo:aFJzVMGN3o7fA38A@cluster0.mqwbn.mongodb.net/tatiana-samuel')
-  .then(() => console.log('MongoDB conectado'))
-  .catch(err => console.error(err));
+mongoose.connect(MONGODB_URL)
+  .then(() => {
+    console.log('Conexion exitosa a MongoDB Atlas');
+  })
+  .catch(err => {
+    console.log('Error de conexion', err.message);
+    process.exit(1);
+  });
 
-
-app.use('/api/games', require('./routes/games'));
-app.use('/api/reviews', require('./routes/reviews'));
-
-app.listen(5000, () => {
-  console.log('Servidor corriendo en puerto 5000');
+app.listen(PORT, () => {
+  console.log(`Servidor Corriendo en http://localhost:${PORT}`);
 });
