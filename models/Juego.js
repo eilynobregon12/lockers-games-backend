@@ -1,35 +1,14 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose")
 
-const JuegoSCHEMA = new mongoose.Schema({
-    nombre: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: true
-    },
-    categoria: {
-        type: String,
-        required: true
-    },
-    portadaURL: {
-        type: String
-    },
-    descripcion: {
-        type: String,
-        required: true
-    },
-    estado: {
-        type: String,
-        enum: ['pendiente', 'jugando', 'completado'],
-        default: 'pendiente'
-    },
-    horasJugadas: {
-        type: Number,
-        default: 0,
-        min: 0
-    }
-}, {
-    timestamps: true
-});
+const JuegoSchema = new mongoose.Schema({
+  nombre: { type: String, required: true },
+  categoria: { type: String, required: true },
+  descripcion: { type: String, required: true },
+  imagen: { type: String, required: true },
+  historia: { type: String },
+  link: { type: String },
+  estado: { type: String, enum: ["pendiente", "jugando", "completado"] },
+  horasJugadas: { type: Number, default: 0 }
+})
 
-module.exports = mongoose.model('Juego', JuegoSCHEMA);
+module.exports = mongoose.model("Juego", JuegoSchema)

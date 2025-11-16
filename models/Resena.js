@@ -1,28 +1,10 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const mongoose = require("mongoose")
 
-const ResenaSchema = new Schema({
-  juego: {
-    type: Schema.Types.ObjectId,
-    ref: 'Juego',
-    required: true
-  },
-  puntuacion: {
-    type: Number,
-    required: true,
-    min: 1,
-    max: 5
-  },
-  texto: {
-    type: String,
-    required: [true, 'El texto de la reseña es obligatorio']
-  },
-  autor: {
-    type: String,
-    default: 'Usuario LockerGames'
-  }
-}, {
-  timestamps: true
-});
+const ResenaSchema = new mongoose.Schema({
+  juegoId: { type: String, required: true },
+  autor: { type: String, required: true },
+  comentario: { type: String, required: true },
+  estrellas: { type: Number, min: 1, max: 5 }
+})
 
-module.exports = mongoose.model('Resena', ResenaSchema);
+module.exports = mongoose.model("Resena", ResenaSchema)
