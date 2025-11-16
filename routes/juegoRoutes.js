@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const juegoController = require('../controllers/juegoController');
+const express = require("express")
+const router = express.Router()
+const controller = require("../controllers/juegoController")
 
-router.post('/', juegoController.crearJuego);
-router.get('/', juegoController.obtenerJuegos);
-router.get('/:id', juegoController.obtenerJuegoPorId);
-router.put('/:id', juegoController.actualizarJuego);
-router.delete('/:id', juegoController.eliminarJuego);
+router.get("/", controller.obtenerJuegos)
+router.get("/:id", controller.obtenerJuegoPorId)
+router.post("/", controller.crearJuego)
+router.put("/:id", controller.actualizarJuego)
+router.delete("/:id", controller.eliminarJuego)
 
-module.exports = router;
+module.exports = router
