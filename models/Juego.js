@@ -6,9 +6,9 @@ const JuegoSchema = new mongoose.Schema({
   descripcion: { type: String, required: true },
   imagen: { type: String, required: true },
   historia: { type: String },
-  link: { type: String },
   estado: { type: String, enum: ["pendiente", "jugando", "completado"] },
-  horasJugadas: { type: Number, default: 0 }
+  horasJugadas: { type: Number, default: 0 },
+  creadoPorUsuario: { type: Boolean, default: false }
 })
 
 module.exports = mongoose.model("Juego", JuegoSchema)

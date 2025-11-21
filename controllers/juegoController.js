@@ -8,7 +8,6 @@ exports.crearJuego = async (req, res) => {
       descripcion: req.body.descripcion,
       imagen: req.body.imagen,
       historia: req.body.historia,
-      link: req.body.link,
       estado: req.body.estado,
       horasJugadas: req.body.horasJugadas
     })
@@ -49,7 +48,6 @@ exports.actualizarJuego = async (req, res) => {
         descripcion: req.body.descripcion,
         imagen: req.body.imagen,
         historia: req.body.historia,
-        link: req.body.link,
         estado: req.body.estado,
         horasJugadas: req.body.horasJugadas
       },

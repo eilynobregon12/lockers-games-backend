@@ -1,67 +1,60 @@
-const Resena = require("../models/Resena")
+const Resena = require("../models/Resena");
 
-const crearResena = async (req, res) => {
+
+exports.crearResena = async (req, res) => {
   try {
-    const nueva = await Resena.create({
-      juegoId: req.body.juegoId,
-      autor: req.body.autor,
-      comentario: req.body.comentario
-    })
-    res.json(nueva)
-  } catch (error) {
-    res.status(500).json({ error: "Error al crear la reseña" })
-  }
-}
+    const { juegoId, usuario, comentario, estrellas } = req.body;
 
-const obtenerResenas = async (req, res) => {
+    if (!juegoId || !usuario || !comentario || estrellas == null) {
+      return res.status(400).json({ message: "Faltan datos" });
+    }
+
+    const nueva = await Resena.create({ juegoId, usuario, comentario, estrellas });
+    res.status(201).json(nueva);
+  } catch (error) {
+    res.status(500).json({ message: "Error al crear reseña" });
+  }
+};
+
+
+exports.obtenerResenasPorJuego = async (req, res) => {
   try {
-    const resenas = await Resena.find()
-    res.json(resenas)
+    const { juegoId } = req.params;
+    const resenas = await Resena.find({ juegoId });
+    res.json(resenas);
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener reseñas" })
+    res.status(500).json({ message: "Error al obtener reseñas" });
   }
-}
+};
 
-const obtenerResenaPorId = async (req, res) => {
+
+exports.editarResena = async (req, res) => {
   try {
-    const resena = await Resena.findById(req.params.id)
-    if (!resena) return res.status(404).json({ error: "Reseña no encontrada" })
-    res.json(resena)
-  } catch (error) {
-    res.status(500).json({ error: "Error al obtener la reseña" })
-  }
-}
+    const { id } = req.params;
+    const actualizada = await Resena.findByIdAndUpdate(id, req.body, { new: true });
 
-const actualizarResena = async (req, res) => {
+    if (!actualizada) {
+      return res.status(404).json({ message: "Reseña no encontrada" });
+    }
+
+    res.json(actualizada);
+  } catch (error) {
+    res.status(500).json({ message: "Error al editar reseña" });
+  }
+};
+
+
+exports.eliminarResena = async (req, res) => {
   try {
-    const actualizada = await Resena.findByIdAndUpdate(
-      req.params.id,
-      {
-        juegoId: req.body.juegoId,
-        autor: req.body.autor,
-        comentario: req.body.comentario
-      },
-      { new: true }
-    )
-    res.json(actualizada)
-  } catch (error) {
-    res.status(500).json({ error: "Error al actualizar la reseña" })
-  }
-}
+    const { id } = req.params;
+    const eliminada = await Resena.findByIdAndDelete(id);
 
-const eliminarResena = async (req, res) => {
-  try {
-    await Resena.findByIdAndDelete(req.params.id)
-    res.json({ mensaje: "Reseña eliminada" })
-  } catch (error) {
-    res.status(500).json({ error: "Error al eliminar la reseña" })
-  }
-}
+    if (!eliminada) {
+      return res.status(404).json({ message: "Reseña no encontrada" });
+    }
 
-module.exports = {
-  crearResena,
-  obtenerResenas,
-  obtenerResenaPorId,
-  actualizarResena,
-  eliminarResena
-}
+    res.json({ message: "Reseña eliminada con éxito" });
+  } catch (error) {
+    res.status(500).json({ message: "Error al eliminar reseña" });
+  }
+};

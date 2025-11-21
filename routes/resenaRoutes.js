@@ -1,11 +1,20 @@
-const express = require("express")
-const router = express.Router()
-const controller = require("../controllers/resenaController")
+const express = require("express");
+const router = express.Router();
+const {
+  crearResena,
+  obtenerResenasPorJuego,
+  editarResena,
+  eliminarResena
+} = require("../controllers/resenaController");
 
-router.post("/", controller.crearResena)
-router.get("/", controller.obtenerResenas)
-router.get("/:id", controller.obtenerResenaPorId)
-router.put("/:id", controller.actualizarResena)
-router.delete("/:id", controller.eliminarResena)
 
-module.exports = router
+router.post("/", crearResena);
+
+
+router.get("/:juegoId", obtenerResenasPorJuego);
+
+router.put("/:id", editarResena);
+
+router.delete("/:id", eliminarResena);
+
+module.exports = router;
